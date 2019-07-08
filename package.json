@@ -1,17 +1,24 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
-  "license": "",
+  "name": "images-modal",
+  "description": "A full-stack application that is meant to mirror popular modal image views. # Project Name",
+  "author": "Matthew McPhillips",
+  "license": "ISC",
   "engines": {
     "node": ">=6.13.0"
   },
-  "scripts": {
-  },
-  "dependencies": {
-  },
+  "scripts": {},
+  "dependencies": {},
   "devDependencies": {
-    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
-  }
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor.git"
+  },
+  "version": "1.0.0",
+  "main": "server/server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fec4-gandolf/images-modal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fec4-gandolf/images-modal/issues"
+  },
+  "homepage": "https://github.com/fec4-gandolf/images-modal#readme"
 }
