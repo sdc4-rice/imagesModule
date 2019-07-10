@@ -6,10 +6,18 @@
   "engines": {
     "node": ">=6.13.0"
   },
-  "scripts": {},
-  "dependencies": {},
+  "scripts": {
+    "start:dev": "nodemon server/index.js",
+    "init:db": "mysql -u root -p < schema.sql",
+    "seed:db": "node ./server/seeder.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.17.1"
+  },
   "devDependencies": {
-    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor.git"
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor.git",
+    "nodemon": "^1.19.1"
   },
   "version": "1.0.0",
   "main": "server/server.js",
