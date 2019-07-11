@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('supertest');
-const app = require('./app');
-const databaseConnection = require('./database');
+const app = require('../server/app');
+const databaseConnection = require('../server/database');
 
 describe('Server routes and responses', () => {
   test('Server shouldreturn a status of 200 for GET requests within range', (done) => {

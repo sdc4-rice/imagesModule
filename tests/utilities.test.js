@@ -1,6 +1,6 @@
-const s3mock = require('./s3mock');
-const seeder = require('./seeder');
-const databaseConnection = require('./database');
+const s3mock = require('../server/s3mock');
+const seeder = require('../server/seeder');
+const databaseConnection = require('../server/database');
 
 describe('generateMockData and MockImages', () => {
   test('Expect return value of generateMockData to an array', () => {
