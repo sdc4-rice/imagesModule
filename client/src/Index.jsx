@@ -22,13 +22,13 @@ class App extends React.Component {
   componentDidMount() {
     this.getImages();
   }
-  // for conversion(location.pathname+location.search).substr(5)
+
   getImages() {
     const that = this;
-    let queryId = window.location.pathname;
+    let queryId = (location.pathname+location.search).substr(3);
     $.ajax({
       method:'GET',
-      url:`/api/images${queryId}`,
+      url:`/api/images/${queryId}`,
       contentType: 'application/json; charset=utf-8',
       success: function(response){
         const parsedResponse = JSON.parse(response.path)
