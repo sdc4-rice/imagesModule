@@ -13,14 +13,14 @@ describe('Server routes and responses', () => {
       });
   });
 
-  test('Expect server responses to be of type JSON ', (done) => {
+  test('Server responses to be of type JSON ', (done) => {
     request(app)
       .get('/api/images/:101')
       .expect('Content-Type', /json/);
     done();
   });
 
-  test('Expect server response to include id within response body', (done) => {
+  test('Server response to include id within response body', (done) => {
     request(app)
       .get('/api/images/:101')
       .set('Accept', 'application/json')
@@ -30,7 +30,7 @@ describe('Server routes and responses', () => {
     done();
   });
 
-  test('Expect server responses to include paths within response body', (done) => {
+  test('Server responses to include paths within response body', (done) => {
     request(app)
       .get('/api/images/:101')
       .set('Accept', 'application/json')
@@ -40,7 +40,7 @@ describe('Server routes and responses', () => {
     done();
   });
 
-  test('Expect server responses to include paths within response body that are not empty', (done) => {
+  test('Server responses to include paths within response body that are not empty', (done) => {
     request(app)
       .get('/api/images/:101')
       .set('Accept', 'application/json')
