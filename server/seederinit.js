@@ -1,3 +1,8 @@
 const seeder = require('./seeder.js');
 
-seeder.seedDatabase(100, 200);
+const min = 100;
+const max = 300;
+
+seeder.truncateImageTable()
+  .then(seeder.setTableStart(min))
+  .then(seeder.seedDatabase(min, max));

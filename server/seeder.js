@@ -11,29 +11,31 @@ const getRandomImageCount = function () {
 
 const truncateImageTable = function () {
   const initializeQuery = 'TRUNCATE TABLE images;';
-  databaseConnection.query(initializeQuery, (err, results) => {
-    if (err) {
-      throw (err);
-    } else {
-      console.log(results);
-    }
+  return new Promise((resolve, reject) => {
+    databaseConnection.query(initializeQuery, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
   });
 };
 
 const setTableStart = function (min) {
   const initializeQuery = `ALTER TABLE images AUTO_INCREMENT = ${min};`;
-  databaseConnection.query(initializeQuery, (err, results) => {
-    if (err) {
-      throw (err);
-    } else {
-      console.log(results);
-    }
+  return new Promise((resolve, reject) => {
+    databaseConnection.query(initializeQuery, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
   });
 };
 
 const seedDatabase = function (min = 0, max = 99) {
-  truncateImageTable();
-  setTableStart(min);
   for (let i = min; i <= max; i += 1) {
     const imageCount = getRandomImageCount();
     const imageURLs = [];
