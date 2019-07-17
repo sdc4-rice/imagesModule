@@ -172,7 +172,6 @@ class ImageList extends React.Component {
   }
 
   onSelect(e) {
-    console.log('select');
     this.setState({
       previousImage: e.target.src,
     });
@@ -226,7 +225,7 @@ class ImageList extends React.Component {
 
 
   render() {
-    // for magnify image state
+    // Main- magnifiy Image state
     if (this.state.galleryState === false && this.state.magnifyImage !== null && this.state.zoom === true) {
       return (
         <ImagesList>
@@ -256,7 +255,7 @@ class ImageList extends React.Component {
         </ImagesList>
       );
     }
-    // for magnification call to action state
+    // Main- magnification call to action state
     if (this.state.galleryState === false && this.state.magnifyImage !== null) {
       return (
         <ImagesList>
@@ -282,7 +281,7 @@ class ImageList extends React.Component {
         </ImagesList>
       );
     }
-    // base state
+    //Main - base state
     if (this.state.galleryState === false) {
       return (
         <ImagesList>
@@ -301,7 +300,7 @@ class ImageList extends React.Component {
         </ImagesList>
       );
     }
-    // gallery with underbar
+    // Gallery - with underbar
     if (this.state.galleryState === true && this.state.screeny > 500) {
       return (
         <ImageListGallery>
@@ -323,7 +322,7 @@ class ImageList extends React.Component {
         </ImageListGallery>
       );
     }
-    // gallery base state
+    // Gallery - base state
     if (this.state.galleryState === true) {
       return (
         <ImageListGallery>
