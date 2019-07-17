@@ -17,8 +17,30 @@ A full-stack application that is meant to mirror popular modal image views.
 
 ## Usage
 
-> Some usage instructions
+1. To initialize database schema, from root directory run
 
+```sh
+mysql -u `userName` -p < schema.sql
+```
+2. To set up database seeding range, modify values for `max` and `min` located in server/seeder.js to reflect which database autoincremented ID to start and finish at.
+
+3. To intitalize seeding, from root directory run
+
+```sh
+node server/seederinit.js
+```
+
+4. to compile files using webpack run
+
+```sh
+npm run react-dev
+```
+
+5. to run server run
+
+```sh
+nodemon server/server.js
+```
 ## Requirements
 
 An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
@@ -33,6 +55,5 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 From within the root directory:
 
 ```sh
-npm install -g webpack
 npm install
 ```
