@@ -1,31 +1,62 @@
-const connection = require('./database.js');
-const mockImages = require('./s3mock.js');
+const databaseConnection = require('./database.js');
+const s3mock = require('./s3mock.js');
 
-const getRandomImageURL = function(){
-  return mockImages[Math.floor((Math.random() * mockImages.length))];
-}
+const getRandomImageURL = function () {
+  return s3mock.mockImages[Math.floor((Math.random() * s3mock.mockImages.length))];
+};
 
-const getRandomImageCount = function(){
-  return Math.floor(Math.random()*(5-3+1)+3);
-}
+const getRandomImageCount = function () {
+  return Math.floor(Math.random() * (5 - 3 + 1) + 3);
+};
 
-const seedDatabase = function(){
-  //for 100 entries.
-  for (let i = 0; i < 100; i++){
-    let imageCount = getRandomImageCount();
-    let imageURLs = [];
-    for (let j = 0; j < imageCount; j++){
+const truncateImageTable = function () {
+  const initializeQuery = 'TRUNCATE TABLE images;';
+  return new Promise((resolve, reject) => {
+    databaseConnection.query(initializeQuery, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+const setTableStart = function (min) {
+  const initializeQuery = `ALTER TABLE images AUTO_INCREMENT = ${min};`;
+  return new Promise((resolve, reject) => {
+    databaseConnection.query(initializeQuery, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+const seedDatabase = function (min = 0, max = 99) {
+  for (let i = min; i <= max; i += 1) {
+    const imageCount = getRandomImageCount();
+    const imageURLs = [];
+    for (let j = 0; j < imageCount; j += 1) {
       imageURLs.push(getRandomImageURL());
     }
-    let query = `insert into images (path) VALUES ('${JSON.stringify(imageURLs)}');`
-    connection.query(query, function(err,results){
-      if(err){
-        console.log(err);
+    const query = `insert into images (path) VALUES ('${JSON.stringify(imageURLs)}');`;
+    databaseConnection.query(query, (err, results) => {
+      if (err) {
+        throw (err);
       } else {
         console.log(results);
       }
-    })
+    });
   }
-}
+};
 
-seedDatabase();
+module.exports = {
+  getRandomImageURL,
+  getRandomImageCount,
+  truncateImageTable,
+  setTableStart,
+  seedDatabase,
+};

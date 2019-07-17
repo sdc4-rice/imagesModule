@@ -1,12 +1,14 @@
 const mysql = require('mysql');
 
-const DatabaseConnection = mysql.createConnection({
-  host: 'localhost',
-  database: 'fecimage',
-  user: 'root',
-  password: 'MattM',
-})
+require('dotenv').config();
 
-DatabaseConnection.connect();
+const databaseConnection = mysql.createConnection({
+  host: process.env.DB_host,
+  database: process.env.DB_database,
+  user: process.env.DB_user,
+  password: process.env.DB_password,
+});
 
-module.exports = DatabaseConnection;
+databaseConnection.connect();
+
+module.exports = databaseConnection;
