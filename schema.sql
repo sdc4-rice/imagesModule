@@ -1,4 +1,4 @@
-DROP DATABASE fecimage;
+DROP DATABASE IF EXISTS fecimage;
 CREATE DATABASE fecimage;
 
 USE fecimage;
