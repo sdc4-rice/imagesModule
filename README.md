@@ -17,26 +17,35 @@ A full-stack application that is meant to mirror popular modal image views.
 
 ## Usage
 
-1. To initialize database schema, from root directory run
+1. To set up environmental variables
+  create file within root directory '.env'
+  Contents of file for a local setup should go as follows
+  ```sh
+     DB_host=localhost
+     DB_database=fecimage
+     DB_user=`user`
+     DB_password=`password`
+  ```
+2. To initialize database schema, from root directory run
 
 ```sh
 mysql -u `userName` -p < schema.sql
 ```
-2. To set up database seeding range, modify values for `max` and `min` located in server/seeder.js to reflect which database autoincremented ID to start and finish at.
+3. To set up database seeding range, modify values for `max` and `min` located in server/seeder.js to reflect which database autoincremented ID to start and finish at.
 
-3. To intitalize seeding, from root directory run
+4. To intitalize seeding, from root directory run
 
 ```sh
 node server/seederinit.js
 ```
 
-4. to compile files using webpack run
+5. to compile files using webpack run
 
 ```sh
 npm run react-dev
 ```
 
-5. to run server run
+6. to run server run
 
 ```sh
 nodemon server/server.js
