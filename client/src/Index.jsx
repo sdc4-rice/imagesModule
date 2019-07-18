@@ -25,7 +25,7 @@ class App extends React.Component {
 
   getImages() {
     const that = this;
-    let queryId = (location.pathname+location.search).substr(3);
+    let queryId = (location.pathname+location.search).substr(5);
     $.ajax({
       method:'GET',
       url:`/api/images/${queryId}`,
