@@ -1,18 +1,6 @@
-
-* {
+#image-modal {
   margin: 0;
   padding: 0;
-  overflow:hidden;
-}
-
-html {
   background-color: rgb(248, 248, 248);
-}
-
-.App {
-  margin-right: 0;
-
-}
-body{
-  margin:0;
+  overflow:hidden;
 }

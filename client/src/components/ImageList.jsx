@@ -97,6 +97,7 @@ const GalleryEntryWrapper = styled.div`
 const GalleryMainImage = styled.img`
   width: 50vw;
   height: 100vh;
+  overflow: hidden;
 `;
 
 const ImageListGallery = styled.div`
@@ -105,6 +106,7 @@ const ImageListGallery = styled.div`
   background-color: #000;
   height: 95%;
   width: 100vw;
+
 `;
 
 class ImageList extends React.Component {
