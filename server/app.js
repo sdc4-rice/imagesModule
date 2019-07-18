@@ -1,5 +1,6 @@
 const express = require('express');
 const getImages = require('./model.js');
+const cors = require('cors');
 
 const app = express();
 
