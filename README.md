@@ -26,6 +26,7 @@ A full-stack application that is meant to mirror popular modal image views.
      DB_user=`user`
      DB_password=`password`
   ```
+
 2. To initialize database schema, from root directory run
 
 ```sh
@@ -48,8 +49,9 @@ npm run react-dev
 6. to run server run
 
 ```sh
-nodemon server/server.js
+npm run start:dev
 ```
+
 ## Requirements
 
 An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).

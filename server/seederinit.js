@@ -1,7 +1,7 @@
 const seeder = require('./seeder.js');
 
 const min = 100;
-const max = 300;
+const max = 200;
 
 seeder.truncateImageTable()
   .then(seeder.setTableStart(min))
