@@ -4,6 +4,7 @@ const getImages = require('./model.js');
 const app = express();
 
 app.use(express.static(`${__dirname}/../client/dist`));
+app.use(cors());
 
 app.get('/api/images/:id', (req, res) => {
   const params = req.params.id;
