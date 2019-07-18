@@ -28,7 +28,7 @@ class App extends React.Component {
     let queryId = (location.pathname+location.search).substr(5);
     $.ajax({
       method:'GET',
-      url:`/api/images/${queryId}`,
+      url:`http://localhost:3003/api/images/${queryId}`,
       contentType: 'application/json; charset=utf-8',
       success: function(response){
         const parsedResponse = JSON.parse(response.path)
