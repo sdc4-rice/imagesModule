@@ -2,20 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import ImageList from './components/ImageList.jsx'
-import styles from './styles/styles.css'
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import ImageList from './components/ImageList.jsx';
+import styles from './styles/styles.css';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      images : [],
-      loading: true
-    }
+      images: [],
+      loading: true,
+    };
     this.getImages = this.getImages.bind(this);
   }
 
@@ -25,35 +25,32 @@ class App extends React.Component {
 
   getImages() {
     const that = this;
-    let queryId = (location.pathname+location.search).substr(5);
+    const queryId = (location.pathname + location.search).substr(5);
     $.ajax({
-      method:'GET',
-      url:`http://localhost:3003/api/images/${queryId}`,
+      method: 'GET',
+      url: `http://localhost:3003/api/images/${queryId}`,
       contentType: 'application/json; charset=utf-8',
-      success: function(response){
-        const parsedResponse = JSON.parse(response.path)
+      success(response) {
+        const parsedResponse = JSON.parse(response.path);
         that.setState({
-          images : parsedResponse,
-          loading: false
-        })
-      }
-    })
+          images: parsedResponse,
+          loading: false,
+        });
+      },
+    });
   }
 
-
-
-  render ()  {
-    if (this.state.loading === true){
+  render() {
+    if (this.state.loading === true) {
       return (<div><h2> loading </h2></div>);
-    } else {
-      return (
+    }
+    return (
       <div>
         <div className="App">
-        <ImageList images={this.state.images}/>
+          <ImageList images={this.state.images} />
         </div>
       </div>
-      );
-    }
+    );
   }
 }
 
