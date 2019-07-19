@@ -5,53 +5,51 @@ const GalleryContainer = styled.div`
   display: inline-block;
   padding-bottom:20px;
   margin: 0 auto;
-`
+`;
 
 const GalleryImageEntry = styled.img`
   height:72px;
   width:72px;
   padding: 0px;
-  border: solid 1px #A0A0A0;
+  border: solid 1px #ccc;
   border-radius:3px;
   &:hover {
-    border: solid 1px #A0A0A0;
+    border: solid 1px #fff;
   }
-`
+`;
 
 const GallerySelected = styled.img`
-  height:70px;
-  width:70px;
+  height:72px;
+  width:72px;
   padding: 0px;
-  border: solid 2px #A0A0A0;
+  border: solid 1px #000;
   border-radius:3px;
-`
+`;
 
-var ImageEntry = ({image, onHover, onExit, onSelect, state}) => {
+const ImageEntry = ({
+  image, onHover, onExit, onGallerySelect, state,
+}) => {
   if (image === state.previousImage) {
-    return(
-    <GalleryContainer>
-      <GallerySelected
-      src={image}
-      onMouseEnter={onHover}
-      onMouseLeave={onExit}
-      onClick={onSelect}
-     />
-    </GalleryContainer>
-    )
+    return (
+      <GalleryContainer>
+        <GallerySelected
+          src={image}
+          onMouseLeave={onExit}
+          onClick={onGallerySelect}
+        />
+      </GalleryContainer>
+    );
   }
-  else  {
-    return(
+
+  return (
     <GalleryContainer>
       <GalleryImageEntry
         src={image}
-        onMouseEnter={onHover}
         onMouseLeave={onExit}
-        onClick={onSelect}
-        />
+        onClick={onGallerySelect}
+      />
     </GalleryContainer>
-    )
-  }
-
-}
+  );
+};
 
 export default ImageEntry;
