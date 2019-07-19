@@ -6,7 +6,7 @@ height:41px;
 width:41px;
 margin-right:17px;
 margin-bottom:5px;
-border: 1px solid rgb(102, 102, 102);
+border: 1px solid #ccc;
 &:hover {
   border: 1px solid #0654ba;
 }
