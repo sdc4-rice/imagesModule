@@ -1,15 +1,15 @@
 const databaseConnection = require('./database.js');
 const s3mock = require('./s3mock.js');
 
-const getRandomImageURL = function () {
+function getRandomImageURL() {
   return s3mock.mockImages[Math.floor((Math.random() * s3mock.mockImages.length))];
-};
+}
 
-const getRandomImageCount = function () {
+function getRandomImageCount() {
   return Math.floor(Math.random() * (5 - 3 + 1) + 3);
-};
+}
 
-const truncateImageTable = function () {
+function truncateImageTable() {
   const initializeQuery = 'TRUNCATE TABLE images;';
   return new Promise((resolve, reject) => {
     databaseConnection.query(initializeQuery, (err, results) => {
@@ -20,9 +20,9 @@ const truncateImageTable = function () {
       }
     });
   });
-};
+}
 
-const setTableStart = function (min) {
+function setTableStart(min) {
   const initializeQuery = `ALTER TABLE images AUTO_INCREMENT = ${min};`;
   return new Promise((resolve, reject) => {
     databaseConnection.query(initializeQuery, (err, results) => {
@@ -33,9 +33,9 @@ const setTableStart = function (min) {
       }
     });
   });
-};
+}
 
-const seedDatabase = function (min = 0, max = 99) {
+function seedDatabase(min = 0, max = 99) {
   for (let i = min; i <= max; i += 1) {
     const imageCount = getRandomImageCount();
     const imageURLs = [];
@@ -51,7 +51,7 @@ const seedDatabase = function (min = 0, max = 99) {
       }
     });
   }
-};
+}
 
 module.exports = {
   getRandomImageURL,

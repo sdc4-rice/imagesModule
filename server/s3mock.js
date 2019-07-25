@@ -1,4 +1,4 @@
-const generateMockData = function () {
+function generateMockData() {
   const mockURLs = [];
   for (let i = 1; i < 52; i += 1) {
     const currentString = i.toString().padStart(4, '0');
@@ -6,7 +6,7 @@ const generateMockData = function () {
     mockURLs.push(currentURL);
   }
   return mockURLs;
-};
+}
 
 const mockImages = generateMockData();
 
