@@ -1,6 +1,6 @@
 const DatabaseConnection = require('./database.js');
 
-const getImages = function (params) {
+function getImages(params) {
   const query = 'select path from images WHERE id = ?';
   return new Promise((resolve, reject) => {
     DatabaseConnection.query(query, params, (err, results) => {
@@ -11,6 +11,22 @@ const getImages = function (params) {
       }
     });
   });
-};
+}
 
-module.exports = getImages;
+function deleteImages(params) {
+  const query = 'delete from images WHERE id = ?';
+  return new Promise((resolve, reject) => {
+    DatabaseConnection.query(query, params, (err, message) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(message);
+      }
+    });
+  });
+}
+
+module.exports = {
+  getImages,
+  deleteImages,
+};
