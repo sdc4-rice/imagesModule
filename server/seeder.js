@@ -9,18 +9,6 @@ function getRandomImageCount() {
   return Math.floor(Math.random() * (5 - 3 + 1) + 3);
 }
 
-function truncateImageTable() {
-  const initializeQuery = 'TRUNCATE TABLE images;';
-  return new Promise((resolve, reject) => {
-    databaseConnection.query(initializeQuery, (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results);
-      }
-    });
-  });
-}
 
 function setTableStart(min) {
   const initializeQuery = `ALTER TABLE images AUTO_INCREMENT = ${min};`;
@@ -56,7 +44,6 @@ function seedDatabase(min = 0, max = 99) {
 module.exports = {
   getRandomImageURL,
   getRandomImageCount,
-  truncateImageTable,
   setTableStart,
   seedDatabase,
 };

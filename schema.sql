@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS fecimage;
-CREATE DATABASE fecimage;
+DROP DATABASE IF EXISTS fec_images;
+CREATE DATABASE fec_images;
 
-USE fecimage;
+USE fec_images;
 
 CREATE TABLE images (
   id int AUTO_INCREMENT NOT NULL,

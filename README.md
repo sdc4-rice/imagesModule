@@ -22,7 +22,7 @@ A full-stack application that is meant to mirror popular modal image views.
   Contents of file for a local setup should go as follows
   ```sh
      DB_host=localhost
-     DB_database=fecimage
+     DB_database=fec_images
      DB_user=`user`
      DB_password=`password`
   ```
