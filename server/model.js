@@ -25,9 +25,22 @@ function deleteImages(params) {
     });
   });
 }
-// create a listing with pictures
+// create a listing with images
 function postImages(params) {
   const query = 'INSERT INTO images(path) VALUES(?)';
+  return new Promise((resolve, reject) => {
+    DatabaseConnection.query(query, params, (err, message) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(message);
+      }
+    });
+  });
+}
+
+function updateImages(params) {
+  const query = 'UPDATE images SET path = json_set(path, arr[0]?) WHERE values(?)';
   return new Promise((resolve, reject) => {
     DatabaseConnection.query(query, params, (err, message) => {
       if (err) {
@@ -43,4 +56,5 @@ module.exports = {
   getImages,
   deleteImages,
   postImages,
+  updateImages,
 };

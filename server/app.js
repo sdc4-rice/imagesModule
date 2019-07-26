@@ -37,4 +37,13 @@ app.post('/api/images/', (req, res) => {
     });
 });
 
+app.put('/api/images/:id', (req, res) => {
+  const params = JSON.stringify([req.params.path, req.params.id]);
+  model.updateImages(params)
+    .then(message => res.json(message))
+    .catch((err) => {
+      throw err;
+    });
+});
+
 module.exports = app;

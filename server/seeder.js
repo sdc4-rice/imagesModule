@@ -23,22 +23,46 @@ function setTableStart(min) {
   });
 }
 
-function seedDatabase(min = 0, max = 99) {
+function seedDatabase(min, max) {
+
   for (let i = min; i <= max; i += 1) {
-    const imageCount = getRandomImageCount();
-    const imageURLs = [];
-    for (let j = 0; j < imageCount; j += 1) {
-      imageURLs.push(getRandomImageURL());
-    }
-    const query = `insert into images (path) VALUES ('${JSON.stringify(imageURLs)}');`;
-    databaseConnection.query(query, (err, results) => {
+    const query1 = `INSERT INTO images(path) VALUES ('{"arr": []}');`;
+    databaseConnection.query(query1, (err, results) => {
       if (err) {
         throw (err);
       } else {
+        console.log('inserted array!');
         console.log(results);
       }
     });
+    const imageCount = getRandomImageCount();
+
+
+    for (let j = 0; j < imageCount; j += 1) {
+      const query2 = `select json_length(path, '$.arr') into @url_counter from images where id = ${i};`;
+      databaseConnection.query(query2, (err, results) => {
+        if (err) {
+          throw (err);
+        } else {
+          console.log('url_counter is grabbed');
+          console.log(results);
+        }
+      });
+      const url = JSON.stringify(getRandomImageURL());
+      const query3 = `update images set path=json_set(path, concat('$.arr[',cast(@url_counter as char(20)),']'), ${url}) where id = ${i};`;
+                      // update images set path=json_set(path, concat('$.arr[',cast(@url_counter as char(20)),']'), 'test3') where id=100;
+      databaseConnection.query(query3, (err, results) => {
+        if (err) {
+          throw (err);
+        } else {
+          console.log('url is pushed to arr');
+          console.log(results);
+        }
+      });
+    }
   }
+
+
 }
 
 module.exports = {
