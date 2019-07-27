@@ -1,22 +1,18 @@
-# images-modal
-A full-stack application that is meant to mirror popular modal image views.
 # Project Name
-
+A full-stack application that is meant to mirror popular modal image views.
 > Project description
 
 ## Related Projects
-
   - https://github.com/fec4-gandolf/bid-buy
   - https://github.com/fec4-gandolf/Napoleon-Service
   - https://github.com/fec4-gandolf/PeopleAlsoViewed
-## Table of Contents
 
+## Table of Contents
 1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+2. [Requirements](#requirements)
+3. [Development](#development)
 
 ## Usage
-
 1. To set up environmental variables
   create file within root directory '.env'
   Contents of file for a local setup should go as follows
@@ -26,31 +22,26 @@ A full-stack application that is meant to mirror popular modal image views.
      DB_user=`user`
      DB_password=`password`
   ```
-
 2. To initialize database schema, from root directory run
-
 ```sh
 mysql -u `userName` -p < schema.sql
 ```
 3. To set up database seeding range, modify values for `max` and `min` located in server/seeder.js to reflect which database autoincremented ID to start and finish at.
 
 4. To intitalize seeding, from root directory run
-
 ```sh
 node server/seederinit.js
 ```
-
-5. to compile files using webpack run
-
+5. To compile files using webpack run
 ```sh
 npm run react-dev
 ```
 
 6. to run server run
-
 ```sh
 npm run start:dev
 ```
+
 
 ## Requirements
 
@@ -67,4 +58,12 @@ From within the root directory:
 
 ```sh
 npm install
+```
+## API Endpoints
+
+| HTTP METHOD      | POST                            | GET                 | PUT                 | DELETE         |
+| ---------------- | --------------------------------| ------------------- | ------------------- | -------------- |
+| CRUD             | CREATE                          | READ                | UPDATE              | DELETE         |
+| /api/images      | creates new listing with images | n/a                 | n/a                 |   n/a          |
+| /api/images/:id  | 404                             | responds w/ images  | updates/adds images | deletes images |
 ```
