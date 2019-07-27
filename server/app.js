@@ -38,8 +38,10 @@ app.post('/api/images/', (req, res) => {
 });
 
 app.put('/api/images/:id', (req, res) => {
-  const params = JSON.stringify([req.params.path, req.params.id]);
-  model.updateImages(params)
+  const params = req.params.id;
+  const params1 = [JSON.stringify(req.params.path), req.params.id];
+  model.getJSONlength(params)
+    .then((message) => model.addToJSONarray(params1))
     .then(message => res.json(message))
     .catch((err) => {
       throw err;

@@ -39,8 +39,22 @@ function postImages(params) {
   });
 }
 
-function updateImages(params) {
-  const query = 'UPDATE images SET path = json_set(path, arr[0]?) WHERE values(?)';
+function getJSONlength(params) {
+
+  const query = `select json_length(path, '$.arr') into @url_counter from images where id = (?);`// depending on ID
+  return new Promise((resolve, reject) => {
+    DatabaseConnection.query(query, params, (err, message) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(message);
+      }
+    });
+  });
+}
+
+function addToJSONarray(params) {
+  const query = `update images set path=json_set(path, concat('$.arr[',cast(@url_counter as char(20)),']'), '?') where id=?;` // which row you want to add value to?
   return new Promise((resolve, reject) => {
     DatabaseConnection.query(query, params, (err, message) => {
       if (err) {
@@ -55,6 +69,6 @@ function updateImages(params) {
 module.exports = {
   getImages,
   deleteImages,
-  postImages,
-  updateImages,
+  getJSONlength,
+  addToJSONarray,
 };
