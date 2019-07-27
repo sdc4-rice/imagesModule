@@ -40,7 +40,6 @@ function postImages(params) {
 }
 
 function getJSONlength(params) {
-
   const query = `select json_length(path, '$.arr') into @url_counter from images where id = (?);`// depending on ID
   return new Promise((resolve, reject) => {
     DatabaseConnection.query(query, params, (err, message) => {
