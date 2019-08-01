@@ -8,10 +8,11 @@ function getRandomImageURL() {
   return s3mock.mockImages[Math.floor((Math.random() * s3mock.mockImages.length))];
 }
 
-function seedData() {
+function seedData(min, max) {
+  // this is seeding data
   db.connection.drop();
   console.time('seedTimeMongo');
-  for (let i = process.env.start_id; i < process.env.end_id; i++) {
+  for (let i = min; i < max; i++) {
   // for each listing we'll generate a random number of urls and store images for each listing as an array
     let path = [];
     // for each listing generate a random number of images
@@ -20,6 +21,7 @@ function seedData() {
       path.push(getRandomImageURL());
     }
 
+    // this is loading data
     let listing = new db.model({
       id: i,
       path: path,

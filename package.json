@@ -1,7 +1,7 @@
 {
   "name": "images-modal",
   "description": "A full-stack application that is meant to mirror popular modal image views. # Project Name",
-  "author": "Matthew McPhillips",
+  "author": "Galina Chzhen",
   "license": "ISC",
   "engines": {
     "node": ">=6.13.0"
@@ -9,7 +9,7 @@
   "scripts": {
     "init:db": "mysql -u root -p < schema.sql",
     "react-dev": "webpack -d --watch",
-    "seed:db": "node server/seed.js",
+    "seed:db": "node server/DBseed.js",
     "start:dev": "nodemon server/server.js",
     "test": "jest"
   },
@@ -18,9 +18,11 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "fast-csv": "^3.4.0",
     "jquery": "^3.4.1",
     "mysql": "^2.17.1",
     "pg": "^7.12.0",
+    "pg-copy-streams": "^2.2.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-transition-group": "^1.2.1",
@@ -34,6 +36,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "babel-preset-env": "^1.7.0",
+    "bluebird": "^3.5.5",
     "css-loader": "^3.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
