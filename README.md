@@ -17,10 +17,14 @@ A full-stack application that is meant to mirror popular modal image views.
   create file within root directory '.env'
   Contents of file for a local setup should go as follows
   ```sh
-     DB_host=localhost
-     DB_database=fec_images
-     DB_user=`user`
-     DB_password=`password`
+      server_host = localhost
+      server_port = 3003
+      DB_choice = db_postgresql
+      DB_user = `your OS username`
+      DB_host = localhost
+      DB_database = postgres
+      DB_port = 5432
+      DB_table = images
   ```
 2. To initialize database schema, from root directory run
 ```sh

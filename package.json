@@ -7,11 +7,12 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "init:db": "mysql -u root -p < schema.sql",
-    "react-dev": "webpack -d --watch",
-    "seed:db": "node server/DBseed.js",
     "start:dev": "nodemon server/server.js",
-    "test": "jest"
+    "react-dev": "webpack -d --watch",
+    "test": "jest",
+    "init:db": "node server/DBschema.js",
+    "seed:db": "node --max-old-space-size=4096 server/DBseed.js",
+    "load:db": "node --max-old-space-size=4096 server/DBgenerate.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

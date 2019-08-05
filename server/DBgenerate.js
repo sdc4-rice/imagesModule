@@ -1,7 +1,53 @@
+/*
+ONCE USED AS A GENERATE MODULE BEFORE LOADING,
+BUT NOW ALL SEEDING HAPPENS ON ONE FILE
+AND THIS IS NOT USED CURRENTLY
+BUT WAS USED BEFORE IN A DIFF STRUCTURE FOR
+VARIOUS THINGS AS HELPERS
+*/
+require('dotenv').config(); // to gain access to env variables
+const path = require('path');
+const pool = require(`../${process.env.DB_choice}/index.js`);
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const table = process.env.DB_table;
+// const inputFile = path.join(__dirname, '/data/images.csv');
+
+const dropTableQuery = `DROP TABLE images;`;
+const createTableQuery = `CREATE TABLE images (path text);`;
+const copyTableQuery = "copy images (path) from ./images.csv with (format 'csv');";
+
+/* BELOW WAS LOOPING THROUGH EXISTING CSV FILES AND
+in 1st variation with postgres running on docker:
+  transcferring each csv to docker so I
+could manually run copy command like Will did but still some of the data
+will be lost even though here on local machine I had correct number of rows
+in 2nd variation with postgres running on local machine:
+
+*/
+async function executeQuery(count) {
+  for(k = 1; k <= count; k++) {
+    const inputFile = path.join(__dirname, `/data/${table}${k}.csv`);
+    await exec(`docker cp ${inputFile} postgres_db_1:/${table}${k}.csv`)
+  }
+  // const { stdout, stderr } = await exec(`docker cp ${inputFile} postgres_db_1:/images.csv`);
+  // if (stdout) console.log('stdout:', stdout);
+  // if (stderr) throw stderr;
+
+
+  // pool.query(dropTableQuery)
+  // .then(() => pool.query(createTableQuery))
+  // .then(() => console.time('copy'))
+  // .then(() => pool.query(copyTableQuery))
+  // .then(() => console.timeEnd('copy'))
+  // .catch(err => console.log(err));
+}
+
+// module.exports = executeQuery;
 // require('dotenv').config(); // to gain access to env variables
 // const s3mock = require('./s3mock.js');
-// const seed = require(`../${process.env.DB_database}/seeder.js`);
-// const databaseConnection = require(`../${process.env.DB_database}/index.js`);
+// const seed = require(`../${process.env.DB_choice}/seeder.js`);
+// const databaseConnection = require(`../${process.env.DB_choice}/index.js`);
 
 // function getRandomImageURL() {
 //   return s3mock.mockImages[Math.floor((Math.random() * s3mock.mockImages.length))];

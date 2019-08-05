@@ -1,21 +1,16 @@
-// require('dotenv').config(); // to gain access to env variables
-// const seeder = require('./DBgenerate.js');
-// seeder(process.env.start_id, process.env.end_id);
-
-
+/*
+Postgres is running on local machine.
+*/
 require('dotenv').config(); // to gain access to env variables
 const fs = require('fs');
 const path = require('path');
-const s3mock = require('./s3mock.js');
-const load = require(`../${process.env.DB_database}/seeder.js`);
-const client = require(`../${process.env.DB_database}/index.js`);
-// write to CSV
 const fastcsv = require('fast-csv');
-const copyFrom = require('pg-copy-streams').from;
-// const inputFile = path.join(__dirname, '/data/images.csv');
-// const stream = fs.createWriteStream(inputFile);
-const table = 'images';
-const { Pool } = require('pg');
+const s3mock = require('./s3mock.js');
+const load = require(`../${process.env.DB_choice}/seeder.js`); // is not used here
+const pool = require(`../${process.env.DB_choice}/index.js`);
+const inputFile = path.join(__dirname, '/data/images.csv');
+const stream = fs.createWriteStream(inputFile);
+const table = process.env.DB_table;
 
 function getRandomImageURL() {
   return s3mock.mockImages[Math.floor((Math.random() * s3mock.mockImages.length))];
@@ -23,14 +18,13 @@ function getRandomImageURL() {
 function getRandomImageCount() {
   return Math.floor(Math.random() * (5 - 3 + 1) + 3);
 };
-const min = process.env.start_id;
-const max = process.env.end_id;
-let count = 1;
 
-async function seed(min, max) {
+async function seed() {
   console.time('seedTime');
+
   let storage = [];
-  for (let i = min; i <= max; i++) {
+  for (let i = 1; i <= 100; i++) {
+    // generates data
     const imageCount = getRandomImageCount();
     let imageURLs = []; // ['str1', 'str2, 'str3']
     for (let j = 0; j < imageCount; j++) {
@@ -39,99 +33,43 @@ async function seed(min, max) {
     imageURLs = JSON.stringify(imageURLs);
     let row = {path: imageURLs};
     storage.push(row);
-
-    if( i % 500 == 0){
-      const inputFile = path.join(__dirname, `/data/images${count}.csv`);
-      console.log(inputFile)
-      // const stream = fs.createWriteStream(inputFile);
-      // await fastcsv
-      //   .write(storage, {headers: false})
-      //   .pipe(stream);
-      console.log(i,storage.length);
-      executeQuery(table, inputFile, storage)
-      storage = [];
-      count++;
-    }
-
   }
-  // write to CSV
-  // fastcsv
-  //   .write(storage, {headers: false})
-  //   .pipe(stream);
-  console.timeEnd('seedTime');
-
+  fastcsv
+  .write(storage, {headers: false})
+  .pipe(stream);
+  for (k = 1; k <= 100000; k++) {
+    await executeQuery()
+  }
+  executeExit()
 };
 
-const executeQuery = (targetTable, inputFile, storage) => {
-  const execute = (target, callback) => {
-    // client.query(`Truncate ${target}`, (err) => {
-    //   if (err) {
-    //     client.end()
-    //     callback(err)
-    //   // return console.log(err.stack)
-    //   } else {
-    //     console.log(`Truncated ${target}`)
-    //     callback(null, target)
-    //   }
-    // })
+const copyTableQuery = `\copy images(path) from '${inputFile}' with (format 'csv');`;
+const getQuery = `\select count(*) from ${table};`;
+const indexingQuery = `\create index index_id on images(id);`;
 
-    callback(null)
-  }
-  execute(targetTable, (err) =>{
-    const istream = fs.createWriteStream(inputFile);
-    fastcsv
-        .write(storage, {headers: false})
-        .pipe(istream)
-        .on('error', error => console.error(error));
-    if (err) return console.log(`Error in Truncate Table: ${err}`);
-    var stream = client.query(copyFrom(`COPY ${targetTable} FROM STDIN`));
-    var fileStream = fs.createReadStream(inputFile);
-
-    fileStream.on('error', (error) =>{
-      console.log(`Error in creating read stream ${error}`)
-    });
-    stream.on('error', (error) => {
-      console.log(`Error in creating stream. ${error}`)
-    });
-    stream.on('end', () => {
-      console.log(`Completed loading data into ${targetTable}`)
-      // client.end()
-    });
-    fileStream.pipe(stream);
-  })
+function executeQuery() {
+  pool.query(copyTableQuery)
+  .catch((err) => console.log('from executeQuery: ', err))
 }
-// Execute the function
-// executeQuery(table)
 
-seed(min, max);
-
-
-    // await load(imageURLs);
-    // if (i === Number(max)) {
-    //   console.log(imageURLs);
-    //   client.end();
-    // }
-    // if(storage.length === 5000) {
-    //   await fastcsv
-    //     .write(storage, {headers: false})
-    //     .pipe(stream);
-    //     function execute(targetTable, (err) =>{
-    //       if (err) return console.log(`Error in Truncate Table: ${err}`)
-    //       var stream = client.query(copyFrom(`COPY ${targetTable} FROM STDIN`))
-    //       var fileStream = fs.createReadStream(inputFile)
-
-    //       fileStream.on('error', (error) =>{
-    //         console.log(`Error in creating read stream ${error}`)
-    //       })
-    //       stream.on('error', (error) => {
-    //         console.log(`Error in creating stream. ${error}`)
-    //       })
-    //       stream.on('end', () => {
-    //         console.log(`Completed loading data into ${targetTable}`)
-    //         client.end()
-    //       })
-    //       fileStream.pipe(stream);
-    //     });
-    //     execute(table);
-    //   storage = [];
-    // }
+async function executeExit() {
+  console.log('created CSV, querring count of rows and executing exit connection');
+  setTimeout(function(){
+    pool.query(getQuery)
+    .then((res) => console.log(res.rows))
+    .then(() => console.timeEnd('seedTime'))
+    .then(() => console.log('pool has drained'))
+    .then(() => pool.query(indexingQuery))
+    // async function createIndex() {
+    //   const query = `CREATE INDEX idx_productid ON reviews(productid);`
+    //   console.time('Indexing');
+    //   await db.sequelize.query(query)
+    //     .then(async () => await console.timeEnd('Indexing'))
+    //     .catch(err => console.log(`Error indexing: ${err}`))
+    // };
+    .then(() => pool.end((process.exit(0))))
+    .catch((err) => console.log('from executeExit: ', err))
+  }, 500);
+}
+// EXPLAIN ANALYZE SELECT * FROM images WHERE product_id = 1;
+seed();

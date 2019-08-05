@@ -1,10 +1,8 @@
+require('dotenv').config(); // to gain access to env variables
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-// const model = require('./model.js');
-
-require('dotenv').config(); // to gain access to env variables
-const db = require(`../${process.env.DB_database}`);
+const model = require('./DBhelpers.js');
 
 const app = express();
 
@@ -15,20 +13,16 @@ app.use(cors());
 
 app.get('/api/images/:id', (req, res) => {
   const params = req.params.id;
-  res.send(params);
-})
-
-
-
-// app.get('/api/images/:id', (req, res) => {
-//   const params = req.params.id;
-//   model.getImages(params)
-//     // .then(images => res.send(images[0]).status(200))
-//     .then(images => res.json(images[0]))
-//     .catch((err) => {
-//       throw err;
-//     });
-// });
+  // const params = [];
+  // params.push(req.params.id);
+  model.getImages(params)
+    // .then(images => console.log(images.rows[0].path))
+    // .then(images => res.send(images))
+    .then(images => res.send(images.rows[0]))
+    .catch((err) => {
+      console.log('err from app.get function: ', err);
+    });
+});
 
 // app.delete('/api/images/:id', (req, res) => {
 //   const params = req.params.id;
