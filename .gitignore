@@ -8,6 +8,7 @@ node_modules/
 
 pids
 *.pid
+
 logs
 *.log
 
@@ -26,3 +27,12 @@ bundle.js
 
 # Environmental Variables
 .env
+
+# APM
+newrelic.js
+
+# data files
+*.csv
+
+# newrelic files
+newrelic*

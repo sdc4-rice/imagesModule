@@ -10,14 +10,13 @@ function getImages(params) {
     text: `SELECT * FROM images WHERE id = $1;`,
     values,
   }
-  // const query = 'select * from images limit 1'
+
   return new Promise((resolve, reject) => {
     pool.query(query, (err, results) => {
       if (err) {
         console.log('err from pool.query: ', err);
         reject(err);
       } else {
-        // console.log(results)
         resolve(results);
       }
     });

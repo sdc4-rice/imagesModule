@@ -1,12 +1,8 @@
-/*
-Postgres is running on local machine.
-*/
-require('dotenv').config(); // to gain access to env variables
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const fastcsv = require('fast-csv');
 const s3mock = require('./s3mock.js');
-const load = require(`../${process.env.DB_choice}/seeder.js`); // is not used here
 const pool = require(`../${process.env.DB_choice}/index.js`);
 const inputFile = path.join(__dirname, '/data/images.csv');
 const stream = fs.createWriteStream(inputFile);
@@ -24,9 +20,8 @@ async function seed() {
 
   let storage = [];
   for (let i = 1; i <= 100; i++) {
-    // generates data
     const imageCount = getRandomImageCount();
-    let imageURLs = []; // ['str1', 'str2, 'str3']
+    let imageURLs = [];
     for (let j = 0; j < imageCount; j++) {
       imageURLs.push(getRandomImageURL());
     }
@@ -60,16 +55,9 @@ async function executeExit() {
     .then(() => console.timeEnd('seedTime'))
     .then(() => console.log('pool has drained'))
     .then(() => pool.query(indexingQuery))
-    // async function createIndex() {
-    //   const query = `CREATE INDEX idx_productid ON reviews(productid);`
-    //   console.time('Indexing');
-    //   await db.sequelize.query(query)
-    //     .then(async () => await console.timeEnd('Indexing'))
-    //     .catch(err => console.log(`Error indexing: ${err}`))
-    // };
     .then(() => pool.end((process.exit(0))))
     .catch((err) => console.log('from executeExit: ', err))
   }, 500);
 }
-// EXPLAIN ANALYZE SELECT * FROM images WHERE product_id = 1;
+
 seed();

@@ -1,5 +1,5 @@
 const app = require('./app');
-require('dotenv').config(); // to gain access to env variables
+require('dotenv').config();
 const port = process.env.server_port;
 
 app.listen(port, () => {
