@@ -1,19 +1,23 @@
+require('dotenv').config(); // to gain access to env variables
+require('newrelic');
 const express = require('express');
-const getImages = require('./model.js');
+const bodyParser = require('body-parser');
 const cors = require('cors');
+const model = require('./DBhelpers.js');
 
 const app = express();
 
 app.use(express.static(`${__dirname}/../client/dist`));
+app.use(bodyParser.json());
 app.use(cors());
+
 
 app.get('/api/images/:id', (req, res) => {
   const params = req.params.id;
-  getImages(params)
-    .then(images => res.send(images[0]).status(200))
-    .then(() => res.end())
+  model.getImages(params)
+    .then(images => res.send(images.rows[0]))
     .catch((err) => {
-      throw err;
+      console.log('err from app.get function: ', err);
     });
 });
 

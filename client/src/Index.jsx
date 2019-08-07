@@ -31,7 +31,9 @@ class App extends React.Component {
       url: `http://localhost:3003/api/images/${queryId}`,
       contentType: 'application/json; charset=utf-8',
       success(response) {
+        console.log('response(path in JSON and is not parsed yet): ', response);
         const parsedResponse = JSON.parse(response.path);
+        // const parsedResponse = response.path;
         that.setState({
           images: parsedResponse,
           loading: false,
