@@ -1,6 +1,5 @@
 # Project Name
-A full-stack application that is meant to mirror popular modal image views.
-> Project description
+A full-stack application for bidding site
 
 ## Related Projects
   - https://github.com/fec4-gandolf/bid-buy
